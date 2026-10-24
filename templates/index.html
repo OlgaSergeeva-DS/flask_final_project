@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Мои записи</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <div class="navbar d-flex justify-content-between align-items-center">
+            <span class="navbar-brand">Дневник</span>
+            <div>
+                <span class="me-3">{{ current_user.username }}</span>
+                <a href="{{ url_for('logout') }}" class="btn-danger">Выйти</a>
+            </div>
+        </div>
+
+        <!-- Заголовок и кнопка создания -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 style="color: #1a365d; font-weight: bold; margin: 0;">Мои записи</h2>
+            <a href="{{ url_for('create') }}" class="btn-primary">+ Создать запись</a>
+        </div>
+
+        <!-- Список карточек -->
+        {% for card in cards %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ card.title }}</h5>
+                    <h6 class="card-subtitle">{{ card.subtitle }}</h6>
+                    <p class="card-text">{{ card.text[:150] }}...</p>
+                    <a href="{{ url_for('card', id=card.id) }}" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">Читать полностью</a>
+                </div>
+            </div>
+        {% else %}
+            <p style="text-align: center; color: #718096; font-style: italic;">У вас пока нет записей. Создайте первую!</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
